@@ -1,8 +1,10 @@
 import Vue from 'vue'
-import { mount } from 'vue-test-utils'
+import { createLocalVue, mount } from 'vue-test-utils'
 import sinon from 'sinon'
 import CookieLaw from '@/components/CookieLaw'
 import * as Cookie from 'tiny-cookie'
+
+const localVue = createLocalVue()
 
 describe('CookieLaw.vue', () => {
   it('should render correct contents', () => {
@@ -14,11 +16,11 @@ describe('CookieLaw.vue', () => {
 
   it('should call "isAccepted" method when mount ', async () => {
     const spy = sinon.stub()
-    Vue.extend(Object.assign(CookieLaw, {
+    mount(CookieLaw, {
       methods: {
         isAccepted: spy
       }
-    }))
+    }, localVue)
 
     expect(spy.called).to.equal(true)
   })
@@ -76,14 +78,14 @@ describe('CookieLaw.vue', () => {
   it('should trigger "accept" event when mounted if cookie has been already acccepted ', async () => {
     localStorage.setItem('cookie:all', 'true')
 
-    const wrapper = mount(CookieLaw)
+    const wrapper = mount(CookieLaw, localVue)
 
     expect(wrapper.emitted()).to.have.property('accept')
 
     localStorage.clear()
   })
   it('should NOT trigger "accept" event when mounted if cookie has been already acccepted ', async () => {
-    const wrapper = mount(CookieLaw)
+    const wrapper = mount(CookieLaw, localVue)
 
     expect(wrapper.emitted()).to.not.have.property('accept')
 
@@ -98,7 +100,7 @@ describe('CookieLaw.vue', () => {
       propsData: {
         storageName: storageName
       }
-    })
+    }, localVue)
 
     wrapper.vm.revoke()
 
