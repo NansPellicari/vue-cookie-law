@@ -14,7 +14,7 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec', 'coverage'],
-    files: ['./index.js'],
+    files: ['./index.js', '../../node_modules/phantomjs-polyfill-object-assign/object-assign-polyfill.js'],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
     },
