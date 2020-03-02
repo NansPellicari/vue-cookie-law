@@ -14,11 +14,11 @@ describe('CookieLaw.vue', () => {
 
   it('should call "isAccepted" method when mount ', async () => {
     const spy = sinon.stub()
-    mount(CookieLaw, {
+    Vue.extend(Object.assign(CookieLaw, {
       methods: {
         isAccepted: spy
       }
-    })
+    }))
 
     expect(spy.called).to.equal(true)
   })
